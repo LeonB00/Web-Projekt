@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="./output.css" rel="stylesheet">
+  <link rel="icon" href="../img/Favicon.ico">
+  <title>KI-Urlaubsziel-Finder</title>
+  <style>
+    .custom_card_bg{
+      background: rgba(255,255,255,0.5);
+      -webkit-backdrop-filter: blur(10px);
+      backdrop-filter: blur(10px);
+    }
+
+    #loader {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      z-index: 1;
+      width: 120px;
+      height: 120px;
+      margin-left: -60px;
+      margin-top: -60px;
+      border: 16px solid #f3f3f3;
+      border-radius: 50%;
+      border-top: 16px solid #148185;
+      -webkit-animation: spin 2s linear infinite;
+      animation: spin 2s linear infinite;
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% { -webkit-transform: rotate(0deg); }
+      100% { -webkit-transform: rotate(360deg); }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="flex flex-col justify-center items-center mb-10">
+
+    <h1 class="text-center font-sans font-bold text-5xl bg-clip-text text-transparent bg-gradient-to-r from-teal-950 to-teal-500 py-10">Finde dein Urlaubsziel</h1>
+
+    <input type="text" id="userInput" placeholder="Wonach suchst du?" class="border-teal-600 border-2 rounded-lg h-10 w-60">
+
+    <p class="text-gray-500 text-center text-lg pt-3 pb-6">
+      Gib Stichworte ein. Zum Beispiel: "Strandurlaub, Italien", "Aktivurlaub in der EU", "Safari in Afrika" <br>
+      Oder beschreibe genauer was du suchst. Zum Beispiel: "Ein Ort an dem man im November noch baden kann"
+    </p>
+
+    <button class="bg-teal-700 hover:bg-teal-950 transission duration-300 ease-in-out text-white font-bold py-2 px-4 rounded-full text-center" onclick="searchDestinations()">Suchen</button>
+  </div>
+
+  <div id="loader" class="hidden"></div> <!-- class:"hidden" wird in JS verwaltet -->
+
+  <div id="destinationCard" class="lg:px-32 xl:px-80 py-6 opacity-0 transition-opacity duration-700 bg-repeat"
+  style="background-image: url(https://img.freepik.com/premium-vector/seamless-pattern-with-doodle-style-travel-items-white-background_492285-186.jpg?w=826);"> <!-- class:"hidden" wird in JS verwaltet -->
+
+    <div class="grid grid-cols-2 lg:grid-cols-3 mx-2 lg:gap-6 gap-2 items-stretch place-content-stretch"> <!-- Grid Layout für die unten erstellten div Komponenten, Tailwind "Cards" -->
+
+      <!-- Jede Card stellt ein Urlaubsziel dar -->
+      <div class="transform hover:scale-110 transition-transform duration-150 lg:m-5 m-0.5 rounded-2xl overflow-hidden custom_card_bg shadow-xl shadow-gray-700">
+        <img id="ort1_img" class="h-44 w-full object-cover overflow-hidden" alt="Kein Bild zu diesem Ziel gefunden">
+        <div class="px-6 py-4 flex justify-between">
+          <p id="ort1", class="font-bold text-xl mb-2"></p> <!-- Text und img der Cards wird in JS zugewiesen -->
+          <img id="land1_img" class="h-7 w-9" alt="Keine Flagge zu diesem Ziel gefunden">
+        </div>
+      </div>
+
+      <div class="transform hover:scale-110 transition-transform duration-150 lg:m-5 m-0.5 rounded-2xl overflow-hidden custom_card_bg shadow-xl shadow-gray-700">
+        <img id="ort2_img" class="h-44 w-full object-cover overflow-hidden" alt="Kein Bild zu diesem Ziel gefunden">
+        <div class="px-6 py-4 flex justify-between">
+          <p id="ort2", class="font-bold text-xl mb-2"></p>
+          <img id="land2_img" class="h-7 w-9" alt="Keine Flagge zu diesem Ziel gefunden">
+        </div>
+      </div>
+
+      <div class="transform hover:scale-110 transition-transform duration-150 lg:m-5 m-0.5 rounded-2xl overflow-hidden custom_card_bg shadow-xl shadow-gray-700">
+        <img id="ort3_img" class="h-44 w-full object-cover overflow-hidden" alt="Kein Bild zu diesem Ziel gefunden">
+        <div class="px-6 py-4 flex justify-between">
+          <p id="ort3", class="font-bold text-xl mb-2"></p>
+          <img id="land3_img" class="h-7 w-9" alt="Keine Flagge zu diesem Ziel gefunden">
+        </div>
+      </div>
+
+      <div class="transform hover:scale-110 transition-transform duration-150 lg:m-5 m-0.5 rounded-2xl overflow-hidden custom_card_bg shadow-xl shadow-gray-700">
+        <img id="ort4_img" class="h-44 w-full object-cover overflow-hidden" alt="Kein Bild zu diesem Ziel gefunden">
+        <div class="px-6 py-4 flex justify-between">
+          <p id="ort4", class="font-bold text-xl mb-2"></p>
+          <img id="land4_img" class="h-7 w-9" alt="Keine Flagge zu diesem Ziel gefunden">
+        </div>
+      </div>
+
+      <div class="transform hover:scale-110 transition-transform duration-150 lg:m-5 m-0.5 rounded-2xl overflow-hidden custom_card_bg shadow-xl shadow-gray-700">
+        <img id="ort5_img" class="h-44 w-full object-cover overflow-hidden" alt="Kein Bild zu diesem Ziel gefunden">
+        <div class="px-6 py-4 flex justify-between">
+          <p id="ort5", class="font-bold text-xl mb-2"></p>
+          <img id="land5_img" class="h-7 w-9" alt="Keine Flagge zu diesem Ziel gefunden">
+        </div>
+      </div>
+
+      <div class="transform hover:scale-110 transition-transformtransform transition-transform duration-150 lg:m-5 m-0.5 rounded-2xl overflow-hidden custom_card_bg shadow-xl shadow-gray-700">
+        <img id="ort6_img" class="h-44 w-full object-cover overflow-hidden" alt="Kein Bild zu diesem Ziel gefunden">
+        <div class="px-6 py-4 flex justify-between">
+          <p id="ort6", class="font-bold text-xl mb-2"></p>
+          <img id="land6_img" class="h-7 w-9" alt="Keine Flagge zu diesem Ziel gefunden">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
